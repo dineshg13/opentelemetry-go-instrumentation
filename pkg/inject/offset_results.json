@@ -9,6 +9,10 @@
           "offsets": [
             {
               "offset": 0,
+              "version": "1.20.4"
+            },
+            {
+              "offset": 0,
               "version": "1.20.3"
             },
             {
@@ -22,6 +26,10 @@
             {
               "offset": 0,
               "version": "1.20"
+            },
+            {
+              "offset": 0,
+              "version": "1.19.9"
             },
             {
               "offset": 0,
@@ -495,6 +503,10 @@
           "offsets": [
             {
               "offset": 176,
+              "version": "1.20.4"
+            },
+            {
+              "offset": 176,
               "version": "1.20.3"
             },
             {
@@ -508,6 +520,10 @@
             {
               "offset": 176,
               "version": "1.20"
+            },
+            {
+              "offset": 176,
+              "version": "1.19.9"
             },
             {
               "offset": 176,
@@ -981,6 +997,10 @@
           "offsets": [
             {
               "offset": 16,
+              "version": "1.20.4"
+            },
+            {
+              "offset": 16,
               "version": "1.20.3"
             },
             {
@@ -994,6 +1014,10 @@
             {
               "offset": 16,
               "version": "1.20"
+            },
+            {
+              "offset": 16,
+              "version": "1.19.9"
             },
             {
               "offset": 16,
@@ -1467,6 +1491,10 @@
           "offsets": [
             {
               "offset": 232,
+              "version": "1.20.4"
+            },
+            {
+              "offset": 232,
               "version": "1.20.3"
             },
             {
@@ -1480,6 +1508,10 @@
             {
               "offset": 232,
               "version": "1.20"
+            },
+            {
+              "offset": 232,
+              "version": "1.19.9"
             },
             {
               "offset": 232,
@@ -1953,6 +1985,10 @@
           "offsets": [
             {
               "offset": 56,
+              "version": "1.20.4"
+            },
+            {
+              "offset": 56,
               "version": "1.20.3"
             },
             {
@@ -1966,6 +2002,10 @@
             {
               "offset": 56,
               "version": "1.20"
+            },
+            {
+              "offset": 56,
+              "version": "1.19.9"
             },
             {
               "offset": 56,
@@ -2439,6 +2479,10 @@
           "offsets": [
             {
               "offset": 152,
+              "version": "1.20.4"
+            },
+            {
+              "offset": 152,
               "version": "1.20.3"
             },
             {
@@ -2452,6 +2496,10 @@
             {
               "offset": 152,
               "version": "1.20"
+            },
+            {
+              "offset": 152,
+              "version": "1.19.9"
             },
             {
               "offset": 152,
@@ -3458,7 +3506,15 @@
             },
             {
               "offset": 8,
+              "version": "v1.54.1"
+            },
+            {
+              "offset": 8,
               "version": "v1.55.0-dev"
+            },
+            {
+              "offset": 8,
+              "version": "v1.55.0"
             },
             {
               "offset": 8,
@@ -4000,7 +4056,15 @@
             },
             {
               "offset": 8,
+              "version": "v1.54.1"
+            },
+            {
+              "offset": 8,
               "version": "v1.55.0-dev"
+            },
+            {
+              "offset": 8,
+              "version": "v1.55.0"
             },
             {
               "offset": 8,
@@ -4542,7 +4606,15 @@
             },
             {
               "offset": 24,
+              "version": "v1.54.1"
+            },
+            {
+              "offset": 24,
               "version": "v1.55.0-dev"
+            },
+            {
+              "offset": 24,
+              "version": "v1.55.0"
             },
             {
               "offset": 24,
@@ -5084,7 +5156,15 @@
             },
             {
               "offset": 32,
+              "version": "v1.54.1"
+            },
+            {
+              "offset": 32,
               "version": "v1.55.0-dev"
+            },
+            {
+              "offset": 32,
+              "version": "v1.55.0"
             },
             {
               "offset": 32,
@@ -5626,7 +5706,15 @@
             },
             {
               "offset": 0,
+              "version": "v1.54.1"
+            },
+            {
+              "offset": 0,
               "version": "v1.55.0-dev"
+            },
+            {
+              "offset": 0,
+              "version": "v1.55.0"
             },
             {
               "offset": 0,
@@ -6168,7 +6256,15 @@
             },
             {
               "offset": 80,
+              "version": "v1.54.1"
+            },
+            {
+              "offset": 80,
               "version": "v1.55.0-dev"
+            },
+            {
+              "offset": 80,
+              "version": "v1.55.0"
             },
             {
               "offset": 80,
