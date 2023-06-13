@@ -21,11 +21,15 @@ import (
 
 // ExePathEnvVar is the environment variable key whose value points to the
 // instrumented executable.
-const ExePathEnvVar = "OTEL_GO_AUTO_TARGET_EXE"
+const (
+	ExePathEnvVar         = "OTEL_GO_AUTO_TARGET_EXE"
+	otelServiceNameEnvVar = "OTEL_SERVICE_NAME"
+)
 
 // TargetArgs are the binary target information.
 type TargetArgs struct {
-	ExePath string
+	ExePath     string
+	ServiceName string
 }
 
 // Validate validates t and returns an error if not valid.
@@ -40,12 +44,14 @@ func (t *TargetArgs) Validate() error {
 // ParseTargetArgs returns TargetArgs for the target pointed to by the
 // environment variable OTEL_GO_AUTO_TARGET_EXE.
 func ParseTargetArgs() *TargetArgs {
-	result := &TargetArgs{}
-
-	val, exists := os.LookupEnv(ExePathEnvVar)
-	if exists {
+	if val, exists := os.LookupEnv(ExePathEnvVar); exists {
+		result := &TargetArgs{}
 		result.ExePath = val
+		serviceName, exists := os.LookupEnv(otelServiceNameEnvVar)
+		if exists {
+			result.ServiceName = serviceName
+		}
+		return result
 	}
-
-	return result
+	return nil
 }
