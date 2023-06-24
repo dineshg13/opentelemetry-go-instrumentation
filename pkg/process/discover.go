@@ -23,6 +23,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/google/gops/goprocess"
 	"go.opentelemetry.io/auto/pkg/errors"
 	"go.opentelemetry.io/auto/pkg/log"
 )
@@ -43,25 +44,71 @@ func NewAnalyzer() *Analyzer {
 
 // DiscoverProcessID searches for the target as an actively running process,
 // returning its PID if found.
-func (a *Analyzer) DiscoverProcessID(target *TargetArgs) (int, error) {
-	for {
-		select {
-		case <-a.done:
-			log.Logger.V(0).Info("stopping process id discovery due to kill signal")
-			return 0, errors.ErrInterrupted
-		case <-a.pidTickerChan:
-			pid, err := a.findProcessID(target)
-			if err == nil {
-				log.Logger.V(0).Info("found process", "pid", pid)
-				return pid, nil
-			}
-			if err == errors.ErrProcessNotFound {
-				log.Logger.V(0).Info("process not found yet, trying again soon", "exe_path", target.ExePath)
-			} else {
-				log.Logger.Error(err, "error while searching for process", "exe_path", target.ExePath)
+func (a *Analyzer) DiscoverProcess(target *TargetArgs) chan goprocess.P {
+	ch := make(chan goprocess.P)
+	dupes := make(map[int]struct{})
+	ignoreProcesses := make(map[string]struct{})
+	ignoreProcesses["dockerd"] = struct{}{}
+	ignoreProcesses["containerd"] = struct{}{}
+	ignoreProcesses["gopls"] = struct{}{}
+	ignoreProcesses["docker-proxy"] = struct{}{}
+	ignoreProcesses["otel-go-instrumentation"] = struct{}{}
+	ignoreProcesses["gops"] = struct{}{}
+	ignoreProcesses["containerd-shim-runc-v2"] = struct{}{}
+
+	go func() {
+		defer func() {
+			close(ch)
+		}()
+
+		for {
+			select {
+			case <-a.done:
+				log.Logger.V(0).Info("stopping process id discovery due to kill signal")
+				return
+			case <-a.pidTickerChan:
+				if target != nil {
+					pid, err := a.findProcessID(target)
+					if err == nil {
+						log.Logger.V(0).Info("found process", "pid", pid)
+						pr, ok, err := goprocess.Find(pid)
+						if err != nil {
+							log.Logger.V(0).Error(err, "error finding process", "pid", pid)
+						}
+						if ok {
+							ch <- pr
+						}
+						return
+					}
+					if err == errors.ErrProcessNotFound {
+						log.Logger.V(0).Info("process not found yet, trying again soon", "exe_path", target.ExePath)
+					} else {
+						log.Logger.Error(err, "error while searching for process", "exe_path", target.ExePath)
+					}
+
+				} else {
+					pm := goprocess.FindAll()
+					for _, p := range pm {
+						if _, ok := dupes[p.PID]; ok {
+							continue
+						}
+						if _, ok := ignoreProcesses[p.Exec]; ok {
+							log.Logger.V(0).Info("ignoring process", "process", p)
+							dupes[p.PID] = struct{}{}
+							continue
+						}
+
+						log.Logger.V(0).Info("found new process", "process", p)
+						ch <- p
+						dupes[p.PID] = struct{}{}
+
+					}
+				}
+
 			}
 		}
-	}
+	}()
+	return ch
 }
 
 func (a *Analyzer) findProcessID(target *TargetArgs) (int, error) {

@@ -42,16 +42,22 @@ func (m *Manager) Run(target *process.TargetDetails) error {
 		go i.Run(m.incomingEvents)
 	}
 
-	for {
-		select {
-		case <-m.done:
-			log.Logger.V(0).Info("shutting down all instrumentors due to signal")
-			m.cleanup()
-			return nil
-		case e := <-m.incomingEvents:
-			m.otelController.Trace(e)
+	go func() {
+		defer func() {
+			m.Close()
+		}()
+		for {
+			select {
+			case <-m.done:
+				log.Logger.V(0).Info("shutting down all instrumentors due to signal")
+				m.cleanup()
+				return
+			case e := <-m.incomingEvents:
+				m.otelController.Trace(e)
+			}
 		}
-	}
+	}()
+	return nil
 }
 
 func (m *Manager) load(target *process.TargetDetails) error {
